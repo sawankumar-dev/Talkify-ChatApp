@@ -62,9 +62,22 @@ export const logout = asyncHandler(async (req, res) => {
         sameSite: "lax",
     }).status(200).json(new ApiResponse(200,null, "Logout successful"))
 })
-
-
-
+export const refreshToken = asyncHandler(async (req, res) => {
+    const token = req.cookies?.refreshToken;
+    const { accessToken, refreshToken: newRefreshToken } = await authService.refreshAccessToken(token);
+    return res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: config.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 15 * 60 * 1000,
+    })
+    .cookie("refreshToken", newRefreshToken, {
+      httpOnly: true,
+      secure: config.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    }).status(200).json(new ApiResponse(200, null, "Access token refreshed successfully!"))
+})
 
 
 

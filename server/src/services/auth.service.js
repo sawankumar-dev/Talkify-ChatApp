@@ -1,6 +1,8 @@
+import jwt from 'jsonwebtoken';
 import User from "../models/user.model.js";
 import ApiError from "../utils/apiError.js";
 import { generateAccessToken, generateRefreshToken } from "../utils/jwt.js";
+import config from '../config/config.js';
 
 const generateTokens = async (user) => {
     const accessToken = generateAccessToken(user._id.toString());
@@ -73,17 +75,32 @@ class AuthService {
             },
         });
     };
+    async refreshAccessToken (refreshToken) {
+        if(!refreshToken) {
+            throw new ApiError(401, "Refresh Token is required");
+        }
+        let decoded;
+        try {
+            decoded = jwt.verify(refreshToken, config.JWT_REFRESH_SECRET)
+        } catch (error) {
+            throw new ApiError(401, "Invalid or expired refresh token")
+        }
+        const user = await User.findById(decoded.userId).select("+refreshToken");
+        if(!user) {
+            throw new ApiError(401, "User not found")
+        }
+        if(user.refreshToken !== refreshToken) {
+            throw new ApiError(401, "Refresh token is invalid")
+        }
+        const { accessToken, refreshToken: newRefreshToken } = await generateTokens(user);
+        user.refreshToken = newRefreshToken;
+        await user.save({ validateBeforeSave: false });
+
+        return {
+            accessToken,
+            refreshToken: newRefreshToken
+        }
+    }
 };
 
 export default new AuthService;
-
-
-
-
-
-
-
-
-
-
-
