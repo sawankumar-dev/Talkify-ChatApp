@@ -78,11 +78,3 @@ export const refreshToken = asyncHandler(async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     }).status(200).json(new ApiResponse(200, null, "Access token refreshed successfully!"))
 })
-
-
-
-
-
-
-
-
