@@ -27,3 +27,12 @@ export const getMe = async () => {
         console.log("Profile Fetched ", error)
     }
 }
+
+export const refreshTokenApi = async () => {
+    try {
+        const response = await apiClient.post("/auth/refresh")
+        return response
+    } catch (error) {
+        console.log("Refresh token refreshed", error)
+    }
+}

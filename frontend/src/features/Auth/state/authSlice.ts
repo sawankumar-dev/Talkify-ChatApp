@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { User } from "../types/auth.types";
-import { getMeAction, loginUserAction, registerUserAction } from "./authActions";
+import { getMeAction, loginUserAction,registerUserAction } from "./authActions";
 
 interface AuthState {
     user: User | null,
@@ -60,6 +60,7 @@ const authSlice = createSlice({
         .addCase(getMeAction.rejected, (state) => {
             state.isLoading = false;
         })
+
     },
 })
 export default authSlice
