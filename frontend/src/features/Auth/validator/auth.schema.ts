@@ -40,5 +40,10 @@ export const RegisterUserSchema = z
     path: ["confirmPassword"], // Error confirmPassword field par dikhega
   });
 
+export const LoginUserSchema = z.object({
+  email: z.string().trim().toLowerCase().pipe(z.email({ message: "Invalid email address" })),
+  password: z.string().trim()
+})
 // Type export standard naming convention ke sath (PascalCase)
 export type RegisterUserType = z.infer<typeof RegisterUserSchema>;
+export type LoginUserType = z.infer<typeof LoginUserSchema>

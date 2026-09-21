@@ -43,7 +43,14 @@ export const getCurrentUser = asyncHandler(async (req, res) => {
         new ApiResponse(
             200,
             {
-                user: req.user,
+                user: {
+                    id: req.user._id,
+                    name: req.user.name,
+                    username: req.user.username,
+                    email: req.user.email,
+                    avatar: req.user.avatar,
+                    createdAt: req.user.createdAt,
+                },
             },
             "Current user fetched successfully"
         )

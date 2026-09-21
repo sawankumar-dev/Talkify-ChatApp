@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input"
 import { RegisterUserSchema, type RegisterUserType } from "../../validator/auth.schema"
 import { useAppDispatch } from "@/shared/hooks/hooks"
 import { registerUserAction } from "../../state/authActions"
+import { NavLink } from "react-router"
 
 const RegisterPage = () => {
   const { 
@@ -139,9 +140,9 @@ const RegisterPage = () => {
       {/* Footer Nav Link */}
       <p className="text-center text-sm text-zinc-500">
         Already have an account?{" "}
-        <a href="/auth" className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors hover:underline underline-offset-4">
+        <NavLink to={"/auth"} className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors hover:underline underline-offset-4">
           Sign in
-        </a>
+        </NavLink>
       </p>
 
     </div>

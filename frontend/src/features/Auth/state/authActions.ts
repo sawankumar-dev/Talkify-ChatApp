@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { registerUserApi } from "../api/auth.api";
-import type { RegisterUserInput } from "../types/auth.types";
+import { loginUserApi, registerUserApi } from "../api/auth.api";
+import type { LoginUserInput, RegisterUserInput } from "../types/auth.types";
 
 export const registerUserAction = createAsyncThunk(
     "auth/register",
@@ -10,6 +10,18 @@ export const registerUserAction = createAsyncThunk(
             return response?.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data.message || "Error in register user Action")
+        }
+    }
+)
+
+export const loginUserAction = createAsyncThunk(
+    "auth/login",
+    async (credential: LoginUserInput, thunkAPI) => {
+        try {
+            const response = await loginUserApi(credential);
+            return response?.data
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.response?.data.message || "Error in login user Action")
         }
     }
 )

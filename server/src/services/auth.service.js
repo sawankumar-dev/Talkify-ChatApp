@@ -63,6 +63,7 @@ class AuthService {
                 username: user.username,
                 email: user.email,
                 avatar: user.avatar,
+                createdAt: user.createdAt,
             },
             accessToken,
             refreshToken,
