@@ -18,3 +18,12 @@ export const loginUserApi = async (credential: LoginUserInput) => {
         console.log("Login Error", error)
     }
 }
+
+export const getMe = async () => {
+    try {
+        const response = await apiClient.get("/auth/me")
+        return response.data
+    } catch (error) {
+        console.log("Profile Fetched ", error)
+    }
+}

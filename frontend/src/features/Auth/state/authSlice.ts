@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { User } from "../types/auth.types";
-import { loginUserAction, registerUserAction } from "./authActions";
+import { getMeAction, loginUserAction, registerUserAction } from "./authActions";
 
 interface AuthState {
     user: User | null,
@@ -34,6 +34,7 @@ const authSlice = createSlice({
         .addCase(registerUserAction.rejected, (state) => {
             state.isLoading = false;
         })
+        
         // ============ LOGIN ==============
         .addCase(loginUserAction.pending, (state) => {
             state.isLoading = true;
@@ -44,6 +45,19 @@ const authSlice = createSlice({
             state.isAuthenticated = true;
         })
         .addCase(loginUserAction.rejected, (state) => {
+            state.isLoading = false;
+        })
+
+        // ============ PROFILE ME ==============
+        .addCase(getMeAction.pending, (state) => {
+            state.isLoading = true;
+        })
+        .addCase(getMeAction.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.user = action.payload.user;
+            state.isAuthenticated = true;
+        })
+        .addCase(getMeAction.rejected, (state) => {
             state.isLoading = false;
         })
     },

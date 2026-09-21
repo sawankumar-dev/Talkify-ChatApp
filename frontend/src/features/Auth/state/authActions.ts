@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { loginUserApi, registerUserApi } from "../api/auth.api";
+import { getMe, loginUserApi, registerUserApi } from "../api/auth.api";
 import type { LoginUserInput, RegisterUserInput } from "../types/auth.types";
 
 export const registerUserAction = createAsyncThunk(
@@ -22,6 +22,18 @@ export const loginUserAction = createAsyncThunk(
             return response?.data
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data.message || "Error in login user Action")
+        }
+    }
+)
+
+export const getMeAction = createAsyncThunk(
+    "auth/me",
+    async (_, thunkAPI) => {
+        try {
+            const response = await getMe()
+            return response?.data;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.response?.data.message || "Error in Profile fetching")
         }
     }
 )
